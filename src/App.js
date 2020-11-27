@@ -19,7 +19,11 @@ function App() {
   let [to, setTo] = useState("to");
   let [amount, setAmount] = useState();
   let [checkInfo, setCheckInfo] = useState(false);
-  let [apiDate, setapiDate] = useState(new Date().toLocaleDateString("en-US"));
+  let [apiDate, setapiDate] = useState(
+    new Date().toLocaleDateString("en-US").split("/")
+  );
+
+  console.log(apiDate);
 
   let fromHandler = (e) => {
     setFrom(e.target.value);
@@ -29,6 +33,11 @@ function App() {
   };
   let amountHandler = (e) => {
     setAmount(e.target.value);
+  };
+
+  let dateEventHandler = (e) => {
+    let handlerDate = e.target.value.split("-");
+    setapiDate([handlerDate[1], handlerDate[2], handlerDate[0]]);
   };
 
   let ButtonClick = () => {
@@ -110,7 +119,10 @@ function App() {
                     fullWidth
                     className="field"
                     label="Date"
-                    defaultValue={apiDate}
+                    onChange={dateEventHandler}
+                    defaultValue={
+                      apiDate[2] + "-" + apiDate[0] + "-" + apiDate[1]
+                    }
                   ></TextField>
                 </FormControl>
               </Grid>
@@ -136,7 +148,16 @@ function App() {
             <Card>
               <Apicall
                 name="Exchange Rate API"
-                url={"https://api.exchangeratesapi.io/latest?base=" + from}
+                url={
+                  "https://api.exchangeratesapi.io/" +
+                  apiDate[2] +
+                  "-" +
+                  apiDate[0] +
+                  "-" +
+                  apiDate[1] +
+                  "?base=" +
+                  from
+                }
                 amount={amount}
                 to={to}
               />
@@ -144,7 +165,31 @@ function App() {
             <Card>
               <Apicall
                 name="Rates API"
-                url={"https://api.ratesapi.io/api/latest?base=" + from}
+                url={
+                  "https://api.ratesapi.io/api/" +
+                  apiDate[2] +
+                  "-" +
+                  apiDate[0] +
+                  "-" +
+                  apiDate[1] +
+                  "?base=" +
+                  from
+                }
+                amount={amount}
+                to={to}
+              />
+              <Apicall
+                name="Fixer API"
+                url={
+                  "http://data.fixer.io/api/" +
+                  apiDate[2] +
+                  "-" +
+                  apiDate[0] +
+                  "-" +
+                  apiDate[1] +
+                  "?access_key=e3f344598c4bbe8027b8570af73f8fef&base=" +
+                  from
+                }
                 amount={amount}
                 to={to}
               />
