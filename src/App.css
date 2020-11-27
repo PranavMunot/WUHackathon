@@ -2,16 +2,15 @@
   text-align: center;
 }
 .Selector {
-  width: 200px;
-  margin-right: 2% !important;
+  width: 80%;
+  /* margin-right: 2% !important; */
 }
 
 .queryBox {
   display: flex;
-  width: 50%;
-  margin: 5% auto;
+  width: 100%;
+  margin: 10% auto;
   justify-content: center;
-}
-.button {
-  width: 200px !important;
+  align-items: center;
+  flex-wrap: wrap;
 }

@@ -8,6 +8,8 @@ import {
   Select,
   Card,
   TextField,
+  Grid,
+  Input,
 } from "@material-ui/core";
 import "./App.css";
 import Apicall from "./API/Apicall";
@@ -15,8 +17,9 @@ import Apicall from "./API/Apicall";
 function App() {
   let [from, setFrom] = useState("from");
   let [to, setTo] = useState("to");
-  let [amount, setAmount] = useState(0);
+  let [amount, setAmount] = useState();
   let [checkInfo, setCheckInfo] = useState(false);
+  let [apiDate, setapiDate] = useState(new Date().toLocaleDateString("en-US"));
 
   let fromHandler = (e) => {
     setFrom(e.target.value);
@@ -29,7 +32,7 @@ function App() {
   };
 
   let ButtonClick = () => {
-    if (from !== "None" && to !== "None" && amount > 0) {
+    if (from !== "None" && to !== "None" && amount > 0 && from !== to) {
       setCheckInfo(true);
     } else {
       setCheckInfo(false);
@@ -40,62 +43,94 @@ function App() {
     <div className="App">
       <Container>
         <h1>Forex Aggregator</h1>
-        <form>
-          <div className="queryBox">
-            <FormControl variant="filled" className="Selector">
-              <TextField
-                id="filled-basic"
-                value={amount}
-                onChange={amountHandler}
-                label="Amount"
-                variant="filled"
-              />
-            </FormControl>
-            <FormControl variant="filled" className="Selector">
-              <InputLabel id="fromLabel">From</InputLabel>
-              <Select
-                className=""
-                labelId="fromLabel"
-                value={from}
-                onChange={fromHandler}
-                label="Select"
-              >
-                <MenuItem value={""}>
-                  <em>None</em>
-                </MenuItem>
-                <MenuItem value={"USD"}>USD</MenuItem>
-                <MenuItem value={"EUR"}>EUR</MenuItem>
-                <MenuItem value={"INR"}>INR</MenuItem>
-              </Select>
-            </FormControl>
-            <FormControl variant="filled" className="Selector">
-              <InputLabel id="fromLabel">To</InputLabel>
-              <Select
-                className=""
-                labelId="fromLabel"
-                value={to}
-                onChange={toHandler}
-              >
-                <MenuItem value={""}>
-                  <em>None</em>
-                </MenuItem>
-                <MenuItem value={"USD"}>USD</MenuItem>
-                <MenuItem value={"EUR"}>EUR</MenuItem>
-                <MenuItem value={"INR"}>INR</MenuItem>
-              </Select>
-            </FormControl>
-            <Button
-              fullWidth
-              variant="contained"
-              className="button"
-              color="primary"
-              onClick={ButtonClick}
-            >
-              {" "}
-              Convert{" "}
-            </Button>
-          </div>
+
+        <form autoComplete="off">
+          <Grid
+            // spacing={3}
+            direction="column"
+            justify="center"
+            alignItems="center"
+            container
+          >
+            <div className="queryBox">
+              <Grid item xs={12} md={2}>
+                <FormControl variant="filled" className="Selector">
+                  <TextField
+                    id="filled-basic"
+                    value={amount}
+                    onChange={amountHandler}
+                    label="Amount"
+                    variant="filled"
+                    className="field"
+                  />
+                </FormControl>
+              </Grid>
+              <Grid item xs={12} md={2}>
+                <FormControl variant="filled" className="Selector">
+                  <InputLabel id="fromLabel">From</InputLabel>
+                  <Select
+                    className="field"
+                    labelId="fromLabel"
+                    value={from}
+                    onChange={fromHandler}
+                    label="Select"
+                  >
+                    <MenuItem value={""}>
+                      <em>None</em>
+                    </MenuItem>
+                    <MenuItem value={"USD"}>USD</MenuItem>
+                    <MenuItem value={"EUR"}>EUR</MenuItem>
+                    <MenuItem value={"INR"}>INR</MenuItem>
+                  </Select>
+                </FormControl>
+              </Grid>
+              <Grid item xs={12} md={2}>
+                <FormControl variant="filled" className="Selector">
+                  <InputLabel id="fromLabel">To</InputLabel>
+                  <Select
+                    className="field"
+                    labelId="fromLabel"
+                    value={to}
+                    onChange={toHandler}
+                  >
+                    <MenuItem value={""}>
+                      <em>None</em>
+                    </MenuItem>
+                    <MenuItem value={"USD"}>USD</MenuItem>
+                    <MenuItem value={"EUR"}>EUR</MenuItem>
+                    <MenuItem value={"INR"}>INR</MenuItem>
+                  </Select>
+                </FormControl>
+              </Grid>
+              <Grid item xs={12} md={2}>
+                <FormControl className="selector">
+                  <TextField
+                    type="date"
+                    variant="filled"
+                    fullWidth
+                    className="field"
+                    label="Date"
+                    defaultValue={apiDate}
+                  ></TextField>
+                </FormControl>
+              </Grid>
+              <Grid item xs={12} md={2}>
+                <Button
+                  fullWidth
+                  variant="contained"
+                  className="button"
+                  className="field"
+                  color="primary"
+                  onClick={ButtonClick}
+                >
+                  {" "}
+                  Convert{" "}
+                </Button>
+              </Grid>
+            </div>
+          </Grid>
         </form>
+
         {checkInfo ? (
           <div>
             <Card>
