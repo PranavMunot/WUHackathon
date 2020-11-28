@@ -15,8 +15,8 @@ import "./App.css";
 import Apicall from "./API/Apicall";
 
 function App() {
-  let [from, setFrom] = useState("from");
-  let [to, setTo] = useState("to");
+  let [from, setFrom] = useState("");
+  let [to, setTo] = useState("");
   let [amount, setAmount] = useState();
   let [checkInfo, setCheckInfo] = useState(false);
   let [apiDate, setapiDate] = useState(
@@ -41,7 +41,7 @@ function App() {
   };
 
   let ButtonClick = () => {
-    if (from !== "None" && to !== "None" && amount > 0 && from !== to) {
+    if (from !== "" && to !== "" && amount > 0 && from !== to) {
       setCheckInfo(true);
     } else {
       setCheckInfo(false);
@@ -51,18 +51,18 @@ function App() {
   return (
     <div className="App">
       <Container>
-        <h1>Forex Aggregator</h1>
+        <h1>TEAM Forex</h1>
 
         <form autoComplete="off">
           <Grid
             // spacing={3}
             direction="column"
-            justify="center"
+            justify="space-between"
             alignItems="center"
             container
           >
             <div className="queryBox">
-              <Grid item xs={12} md={2}>
+              <Grid item spacing={3} xs={12} md={2}>
                 <FormControl variant="filled" className="Selector">
                   <TextField
                     id="filled-basic"
@@ -126,74 +126,72 @@ function App() {
                   ></TextField>
                 </FormControl>
               </Grid>
-              <Grid item xs={12} md={2}>
-                <Button
-                  fullWidth
-                  variant="contained"
-                  className="button"
-                  className="field"
-                  color="primary"
-                  onClick={ButtonClick}
-                >
-                  {" "}
-                  Convert{" "}
-                </Button>
-              </Grid>
             </div>
           </Grid>
+
+          <Button
+            variant="contained"
+            className="button"
+            className="field"
+            color="primary"
+            onClick={ButtonClick}
+          >
+            {" "}
+            Convert{" "}
+          </Button>
         </form>
 
         {checkInfo ? (
           <div>
-            <Card>
-              <Apicall
-                name="Exchange Rate API"
-                url={
-                  "https://api.exchangeratesapi.io/" +
-                  apiDate[2] +
-                  "-" +
-                  apiDate[0] +
-                  "-" +
-                  apiDate[1] +
-                  "?base=" +
-                  from
-                }
-                amount={amount}
-                to={to}
-              />
-            </Card>
-            <Card>
-              <Apicall
-                name="Rates API"
-                url={
-                  "https://api.ratesapi.io/api/" +
-                  apiDate[2] +
-                  "-" +
-                  apiDate[0] +
-                  "-" +
-                  apiDate[1] +
-                  "?base=" +
-                  from
-                }
-                amount={amount}
-                to={to}
-              />
-              <Apicall
-                name="Fixer API"
-                url={
-                  "http://data.fixer.io/api/" +
-                  apiDate[2] +
-                  "-" +
-                  apiDate[0] +
-                  "-" +
-                  apiDate[1] +
-                  "?access_key=e3f344598c4bbe8027b8570af73f8fef&base=" +
-                  from
-                }
-                amount={amount}
-                to={to}
-              />
-            </Card>
+            <Apicall
+              name="Exchange Rate API"
+              url={
+                "https://api.exchangeratesapi.io/" +
+                apiDate[2] +
+                "-" +
+                apiDate[0] +
+                "-" +
+                apiDate[1] +
+                "?base=" +
+                from
+              }
+              amount={amount}
+              from={from}
+              to={to}
+            />
+
+            <Apicall
+              name="Rates API"
+              url={
+                "https://api.ratesapi.io/api/" +
+                apiDate[2] +
+                "-" +
+                apiDate[0] +
+                "-" +
+                apiDate[1] +
+                "?base=" +
+                from
+              }
+              amount={amount}
+              from={from}
+              to={to}
+            />
+            <Apicall
+              name="Fixer API"
+              url={
+                "http://data.fixer.io/api/" +
+                apiDate[2] +
+                "-" +
+                apiDate[0] +
+                "-" +
+                apiDate[1] +
+                "?access_key=e3f344598c4bbe8027b8570af73f8fef&base=" +
+                from
+              }
+              amount={amount}
+              from={from}
+              to={to}
+            />
           </div>
         ) : null}
       </Container>
